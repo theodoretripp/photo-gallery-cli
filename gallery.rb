@@ -10,7 +10,7 @@ def absolute_paths_list(file_paths) #adapts for arrays
 end
 
 def img_tag(photo_path)
-  img_tag_str = "<img src=\"#{photo_path}\">"
+  img_tag_str = "<img src=\"#{photo_path}\" height=200 width=200 class=\"brd\">"
 
   return img_tag_str
 end
@@ -22,22 +22,32 @@ def tag_list_builder(photo_files)
     tag_array.push(img_tag(each_path))
   end
 
-  tag_string = tag_array.join("\n  ")
+  tag_string = tag_array.join("\n    ")
 
   return tag_string
 end
+
+# Note on v0.5: added height, width, and class to the img_tag method.
+# Added css style section into the HTML document.
 
 def html_gallery(image_tags)
 full_html = <<-HTML
 <!DOCTYPE html>
 <html>
-<head>
-  <title>My Gallery</title>
-</head>
-<body>
-  <h1>My Gallery</h1>
-  #{image_tags}
-</body>
+  <head>
+    <title>My Gallery</title>
+  </head>
+  <body>
+    <h1>My Gallery</h1>
+    #{image_tags}
+    <style contenteditable>
+      .brd {
+        border: 2px solid grey;
+        margin: 8px;
+        box-shadow: 5px 5px 10px grey;
+      }
+    </style>
+  </body>
 </html>
   HTML
 
