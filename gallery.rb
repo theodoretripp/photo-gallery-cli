@@ -10,7 +10,7 @@ def absolute_paths_list(file_paths) #adapts for arrays
 end
 
 def img_tag(photo_path)
-  img_tag_str = "<img src=\"#{photo_path}\" height=200 width=200 class=\"brd\">"
+  img_tag_str = "<img src=\"#{photo_path}\" class=\"img_medium brd\">"
 
   return img_tag_str
 end
@@ -40,11 +40,15 @@ full_html = <<-HTML
   <body>
     <h1>My Gallery</h1>
     #{image_tags}
-    <style contenteditable>
+    <style>
       .brd {
         border: 2px solid grey;
         margin: 8px;
         box-shadow: 5px 5px 10px grey;
+      }
+      .img_medium {
+        width: 200;
+        height: 200;
       }
     </style>
   </body>
