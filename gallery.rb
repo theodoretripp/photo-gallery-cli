@@ -1,37 +1,17 @@
-
-def absolute_paths_list(file_paths) #adapts for arrays
-  absolute_paths_array = []
-
-  file_paths.each do |file|
-    absolute_paths_array.push(File.absolute_path(file))
-  end
-
-  return absolute_paths_array
+def absolute_paths_list(file_paths)
+  file_paths.map { |file| File.absolute_path(file) }
 end
 
 def img_tag(photo_path)
-  img_tag_str = "<img src=\"#{photo_path}\" class=\"img_medium brd\">"
-
-  return img_tag_str
+  "<img src=\"#{photo_path}\" class=\"img_medium brd\">"
 end
 
 def tag_list_builder(photo_files)
-  tag_array = []
-
-  photo_files.each do |each_path|
-    tag_array.push(img_tag(each_path))
-  end
-
-  tag_string = tag_array.join("\n    ")
-
-  return tag_string
+  photo_files.map { |each_path| img_tag(each_path) }.join("\n  ")
 end
 
-# Note on v0.5: added height, width, and class to the img_tag method.
-# Added css style section into the HTML document.
-
 def html_gallery(image_tags)
-full_html = <<-HTML
+  full_html = <<-HTML
 <!DOCTYPE html>
 <html>
   <head>
@@ -55,13 +35,17 @@ full_html = <<-HTML
 </html>
   HTML
 
-  return full_html
+  full_html
+end
+
+def photo_gallery(files)
+  absolute_paths_array = absolute_paths_list(files) # Create array of paths
+
+  tag_string = tag_list_builder(absolute_paths_array) # Build tags from paths
+
+  return html_gallery(tag_string) # Insert the tags into the HTML templage.
 end
 
 if __FILE__ == $PROGRAM_NAME
-  photo_files = ARGV # Get arguments - files
-
-  absolute_paths_array = absolute_paths_list(photo_files) # Create array of paths
-  tag_string = tag_list_builder(absolute_paths_array) # Build tags from paths
-  puts html_gallery(tag_string) # Insert the tags into the HTML templage.
+  puts photo_gallery(ARGV)
 end
