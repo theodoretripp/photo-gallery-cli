@@ -1,9 +1,9 @@
-def absolute_paths_list(file_paths) #adapts for arrays
+def absolute_paths_list(file_paths)
   file_paths.map { |file| File.absolute_path(file) }
 end
 
 def img_tag(photo_path)
-  "<img src=\"#{photo_path}\">"
+  "<img src=\"#{photo_path}\" class=\"img_medium brd\">"
 end
 
 def tag_list_builder(photo_files)
@@ -14,13 +14,24 @@ def html_gallery(image_tags)
   full_html = <<-HTML
 <!DOCTYPE html>
 <html>
-<head>
-  <title>My Gallery</title>
-</head>
-<body>
-  <h1>My Gallery</h1>
-  #{image_tags}
-</body>
+  <head>
+    <title>My Gallery</title>
+  </head>
+  <body>
+    <h1>My Gallery</h1>
+    #{image_tags}
+    <style>
+      .brd {
+        border: 2px solid grey;
+        margin: 8px;
+        box-shadow: 5px 5px 10px grey;
+      }
+      .img_medium {
+        width: 200;
+        height: 200;
+      }
+    </style>
+  </body>
 </html>
   HTML
 
