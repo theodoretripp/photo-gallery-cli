@@ -1,6 +1,4 @@
-def absolute_paths_list(file_paths)
-  file_paths.map { |file| File.absolute_path(file) }
-end
+require 'fileutils'
 
 def img_tag(photo_path)
   "<img src=\"#{photo_path}\" class=\"img_medium brd\">"
@@ -38,14 +36,28 @@ def html_gallery(image_tags)
   full_html
 end
 
+def create_directory(path)
+  Dir.mkdir(path.first)
+  Dir.chdir(path.first)
+  Dir.mkdir(path.last)
+end
+
+def create_html_file(content)
+  File.open("gallery.html", "w"){ |file| file.puts content}
+end
+
 def photo_gallery(files)
-  absolute_paths_array = absolute_paths_list(files) # Create array of paths
+  relative_path = ["public", "img"]
 
-  tag_string = tag_list_builder(absolute_paths_array) # Build tags from paths
+  create_directory(relative_path)
 
-  return html_gallery(tag_string) # Insert the tags into the HTML templage.
+  tag_string = tag_list_builder(files) # Build tags from paths.
+
+  content = html_gallery(tag_string) # Insert the tags into the HTML templage.
+
+  create_html_file(content) #Create file and write file in current working direcotry
 end
 
 if __FILE__ == $PROGRAM_NAME
-  puts photo_gallery(ARGV)
+  photo_gallery(ARGV)
 end
